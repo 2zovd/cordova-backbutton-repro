@@ -1,0 +1,20 @@
+--- node_modules/cordova-android/framework/src/org/apache/cordova/CordovaWebViewImpl.java	2026-10-08 17:29:20
++++ platforms/android/CordovaLib/src/org/apache/cordova/CordovaWebViewImpl.java	2026-10-08 17:31:41
+@@ -642,6 +642,7 @@
+                             break;
+                         case KeyEvent.KEYCODE_BACK:
+                             eventName = "backbutton";
++                            android.util.Log.d("BackRepro", "backbutton sent, synthetic=" + (event.getDownTime() == event.getEventTime()) + " source=" + event.getSource(), new Throwable("stack"));
+                             break;
+                     }
+                     if (eventName != null) {
+--- node_modules/cordova-android/framework/src/org/apache/cordova/CoreAndroid.java	2026-10-08 17:29:20
++++ platforms/android/CordovaLib/src/org/apache/cordova/CoreAndroid.java	2026-10-08 17:31:41
+@@ -291,6 +291,7 @@
+     }
+ 
+     private void dispatchBackKeyEvent() {
++        android.util.Log.d("BackRepro", "OnBackPressedCallback -> dispatchBackKeyEvent");
+         // Build a synthetic BACK key press (DOWN + UP) and route it through the WebView.
+         // This lets Cordova's existing key handling fire the JS "backbutton" event.
+         final long eventTime = SystemClock.uptimeMillis();
